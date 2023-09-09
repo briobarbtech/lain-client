@@ -14,14 +14,15 @@ function InputPanel() {
         content: context.message,
         role: "user",
         user: context.user.username,
-        date: Date.now()
-      };
-      context.setMessages([newMessage], ...context.messages);
 
-      // HTTP Request: POST http://localhost:3015/api/v1/save
+      };
+      context.setMessages([...context.messages,newMessage ]);
+
+      // HTTP Request: POST http://localhost:3015/api/v1/message
       // Send message
-      context.axios.post(context.url + "/save", newMessage);
+      context.axios.post(context.url + "/messages", newMessage);
       context.setMessage("");
+      
     } else {
       // is not allowed to send message
       console.log("cant send message");

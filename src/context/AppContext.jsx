@@ -12,7 +12,7 @@ export function AppContextProvider(props) {
   const url = "http://localhost:3015/api/v1";
   const [storedMessages, setStoredMessages] = useState([]);
   const [firstTime, setFirstTime] = useState(false);
-
+const [reaction, setReaction] = useState('normal')
   return (
     <AppContext.Provider
       value={{
@@ -29,6 +29,8 @@ export function AppContextProvider(props) {
         firstTime,
         setFirstTime,
         url,
+        reaction,
+        setReaction
       }}
     >
       {props.children}

@@ -18,13 +18,13 @@ const particlesConfig = {
         },
         "opacity": .5
       },
-      "enable": true
+      "enable": false
     },
     "defaultThemes": {},
     "delay": 0,
     "fullScreen": {
       "enable": true,
-      "zIndex": 1
+      "zIndex": -1
     },
     "detectRetina": true,
     "duration": 0,

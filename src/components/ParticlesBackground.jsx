@@ -9,13 +9,12 @@ function ParticlesBackground() {
   }, []);
 
   return (
-    <div>
+    
       <Particles 
-      //id="tsparticles"
+      id="tsparticles"
       options={particlesConfig}
       init={particlesInit} />
 
-    </div>
   );
 }
 

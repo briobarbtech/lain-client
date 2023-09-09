@@ -1,15 +1,26 @@
-import { React, useContext, useEffect } from "react";
+import { React, useContext, useEffect, useRef } from "react";
 import { styled } from "styled-components";
 import { color } from "./theme";
 import { AppContext } from "../context/AppContext";
 
 function MessagesPanel() {
   const context = useContext(AppContext);
+  const messagesContainerRef = useRef(null);
   useEffect(() => {
-    const receivedMessage = (message) => {
-      context.setMessage([message, ...context.messages]);
+    const container = messagesContainerRef.current;
+    container.scrollTop = container.scrollHeight;
+  }, [context.storedMessages]);
+  useEffect(() => {
+    const receivedMessage = (message,nickname,reaction) => {
+      context.setReaction(reaction);
+      context.setMessages([
+        ...context.messages,
+        { user: nickname, content: message },
+      ]);
     };
     context.socket.on("message", receivedMessage);
+    const container = messagesContainerRef.current;
+    container.scrollTop = container.scrollHeight;
     return () => {
       context.socket.off("message", receivedMessage);
     };
@@ -36,39 +47,38 @@ function MessagesPanel() {
           <div className="square"></div>
         </nav>
         <div className="card">
-          <div className="card-body">
-            {/* {context.storedMessages.map((message,index) => <div>{message.content}</div>)} */}
+          <div className="card-body" ref={messagesContainerRef}>
             {context.storedMessages.map((message, index) => (
               <div
-							className={`${
-								message.user === context.user.username ? "me-bubble" : "ia-bubble"
-							}`}
+                className={`${
+                  message.user === context.user.username
+                    ? "me-bubble"
+                    : "ia-bubble"
+                }`}
               >
                 <div
                   className={`${
                     message.user === context.user.username ? "me" : "ia"
                   }`}
                 >
-                  <div className="">
-                    {message.user}: {message.content}
-                  </div>
+                  {message.user}:<div className="">{message.content}</div>
                 </div>
               </div>
             ))}
             {context.messages.map((message, index) => (
               <div
-							className={`${
-								message.user === context.user.username ? "me-bubble" : "ia-bubble"
-							}`}
+                className={`${
+                  message.user === context.user.username
+                    ? "me-bubble"
+                    : "ia-bubble"
+                }`}
               >
                 <div
                   className={`${
                     message.user === context.user.username ? "me" : "ia"
                   }`}
                 >
-                  <div className="">
-                    {message.user}: {message.content}
-                  </div>
+                  {message.user}:<div className="">{message.content}</div>
                 </div>
               </div>
             ))}
@@ -114,16 +124,51 @@ const MessagesPanelStyled = styled.div`
     border: 3px solid ${color.background};
   }
   .card {
-    width: 100%;
+    width:100%;
     height: 500px;
     background-color: ${color.background};
     border: 3px solid ${color.border};
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .card-body{
+    width: 90%;
+    height: 500px;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: scroll;
+    scroll-behavior: auto;
+    scroll-behavior: smooth;
+    
+  }
+  .card-body::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  /* Track */
+  .card-body::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey; 
+    border-radius: 10px;
+  }
+   
+  /* Handle */
+  .card-body::-webkit-scrollbar-thumb {
+    background: #137683; 
+    border-radius: 10px;
+  }
+  
+  /* Handle on hover */
+  .card-body::-webkit-scrollbar-thumb:hover {
+    background: #8acbee; 
   }
   .me{
     color: ${color.fontsW};
 		background-color: ${color.background};
 		border: 2px solid ${color.border};
 		width: max-content;
+    width: 80%;
 		padding: 10px;
 		border-radius: 10px;
   }
@@ -132,18 +177,20 @@ const MessagesPanelStyled = styled.div`
 		background-color: ${color.fontsW};
 		border: 2px solid ${color.fontsW};
 		width: max-content;
+    width: 80%;
 		padding: 10px;
 		border-radius: 10px;
   }
   .me-bubble {
-		padding: 5px;
+    width: 100%;
+		padding: 10px 0;
 		display:flex;
-		align-items:center;
 		justify-content: end;
 
 	}
   .ia-bubble {
-		padding: 5px;
+    width: 100%;
+    padding: 10px 0;
 		display:flex;
 		align-items:center;
     justify-content: start;
