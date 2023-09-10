@@ -17,10 +17,12 @@ export const color = {
 
 export const reactions = {
     normal: normal,
-    happy: happy,
-    mad: mad,
+    happiness: happy,
+    anger: mad,
+    serious:mad,
+    blame: sad,
     incredulous:incredulous,
     confused: confused,
     thinking: thinking,
-    sad:sad
+    sadness:sad
 }

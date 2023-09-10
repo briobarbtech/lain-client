@@ -16,7 +16,7 @@ function TextToSpeech() {
   }, [context.voice]);
   return (
     <div>
-      <button onClick={() => speakMessage()}>Leer Mensaje</button>
+      
     </div>
   );
 }
