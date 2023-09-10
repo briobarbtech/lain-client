@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { styled } from "styled-components";
-import { color } from "./theme.js";
+import { color } from "./config/theme.js";
 import { AppContext } from "../context/AppContext.jsx";
 function InputPanel() {
   const context = useContext(AppContext);
@@ -21,6 +21,7 @@ function InputPanel() {
       // HTTP Request: POST http://localhost:3015/api/v1/message
       // Send message
       context.axios.post(context.url + "/messages", newMessage);
+      // input is emptied
       context.setMessage("");
       
     } else {

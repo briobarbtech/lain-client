@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
 import TextToSpeech from "./TextToSpeech";
-import { color,reactions } from "./theme";
+import { color,reactions } from "./config/theme";
 import { AppContext } from "../context/AppContext";
 function ProfilePanel() {
   const context = useContext(AppContext)

@@ -1,35 +1,46 @@
 import { React, useContext, useEffect, useRef } from "react";
 import { styled } from "styled-components";
-import { color } from "./theme";
+import { color } from "./config/theme";
 import { AppContext } from "../context/AppContext";
 import postAudio from "./post.audio";
 
 function MessagesPanel() {
+  // get the context
   const context = useContext(AppContext);
+  // a ref is created to get the input content
   const messagesContainerRef = useRef(null);
+
+  // useEffect is used to scroll to the bottom when a new message arrive
   useEffect(() => {
     const container = messagesContainerRef.current;
     container.scrollTop = container.scrollHeight;
   }, [context.storedMessages]);
+  // in this part we define a function to save in a variable the new messages
   useEffect(() => {
-    const receivedMessage = async (message,nickname,reaction) => {
+    const receivedMessage = async (message, nickname, reaction) => {
       context.setReaction(reaction);
-      context.setVoice(message)
+      context.setVoice(message);
       context.setMessages([
         ...context.messages,
         { user: nickname, content: message },
       ]);
     };
+    // When socket io to listen a new message receivedMessage() is executed to save the message in the status variable messages
     context.socket.on("message", receivedMessage);
+    // When a message is saved the next code to make to scroll to the bottom
     const container = messagesContainerRef.current;
     container.scrollTop = container.scrollHeight;
+    // idk kjjj
     return () => {
       context.socket.off("message", receivedMessage);
     };
   }, [context.messages]);
+
+  // We'll to get all messages to charge the message history
+  // this part will be executed just when the app start, so we'll set the next bool in true
   if (!context.firstTime) {
     // HTTP Request: GET http://localhost:3015/api/v1/messages
-    // Get all messages
+
     context.setFirstTime(true);
     context.axios.get(context.url + "/messages").then((res) => {
       context.setStoredMessages(res.data.messages);

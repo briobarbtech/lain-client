@@ -1,6 +1,6 @@
 import React, { createRef, useContext } from "react";
 import { styled } from "styled-components";
-import { color } from "./theme.js";
+import { color } from "./config/theme.js";
 import { AppContext } from "../context/AppContext.jsx";
 
 function LoginPanel() {

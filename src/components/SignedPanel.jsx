@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { styled } from "styled-components";
-import { color } from "./theme";
+import { color } from "./config/theme";
 import { AppContext } from "../context/AppContext";
 function SignedPanel({ username }) {
   const context = useContext(AppContext);
