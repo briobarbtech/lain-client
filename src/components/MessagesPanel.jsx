@@ -2,6 +2,7 @@ import { React, useContext, useEffect, useRef } from "react";
 import { styled } from "styled-components";
 import { color } from "./theme";
 import { AppContext } from "../context/AppContext";
+import postAudio from "./post.audio";
 
 function MessagesPanel() {
   const context = useContext(AppContext);
@@ -11,8 +12,9 @@ function MessagesPanel() {
     container.scrollTop = container.scrollHeight;
   }, [context.storedMessages]);
   useEffect(() => {
-    const receivedMessage = (message,nickname,reaction) => {
+    const receivedMessage = async (message,nickname,reaction) => {
       context.setReaction(reaction);
+      context.setVoice(message)
       context.setMessages([
         ...context.messages,
         { user: nickname, content: message },

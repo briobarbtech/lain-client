@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
-
+import TextToSpeech from "./TextToSpeech";
 import { color,reactions } from "./theme";
 import { AppContext } from "../context/AppContext";
 function ProfilePanel() {
@@ -13,7 +13,8 @@ function ProfilePanel() {
           <div className="box"></div>
         </div>
         <img src={reactions[context.reaction]} alt="" className="photo" />
-        <div className="sound-values"><div className="voice-title">Voice:</div></div>
+        <div className="sound-values"><div className="voice-title">Voice:</div>
+        <TextToSpeech/></div>
       </div>
     </ProfilePanelStyled>
   );

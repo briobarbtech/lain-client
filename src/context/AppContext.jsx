@@ -12,10 +12,13 @@ export function AppContextProvider(props) {
   const url = "http://localhost:3015/api/v1";
   const [storedMessages, setStoredMessages] = useState([]);
   const [firstTime, setFirstTime] = useState(false);
-const [reaction, setReaction] = useState('normal')
+  const [reaction, setReaction] = useState("normal");
+  const [voice, setVoice] = useState(null);
   return (
     <AppContext.Provider
       value={{
+        voice,
+        setVoice,
         socket,
         axios,
         message,
@@ -30,7 +33,7 @@ const [reaction, setReaction] = useState('normal')
         setFirstTime,
         url,
         reaction,
-        setReaction
+        setReaction,
       }}
     >
       {props.children}
